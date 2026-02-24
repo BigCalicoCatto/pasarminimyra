@@ -5,42 +5,26 @@ import { useEffect, useRef, useState } from "react";
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<"klangvalley" | "kuantan">("klangvalley");
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const heroRef = useRef<HTMLDivElement>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
   const startX = useRef(0);
   const scrollLeft = useRef(0);
   const autoScrollRef = useRef<number | null>(null);
-
-  // Squish animation on scroll
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!heroRef.current) return;
-      const rect = heroRef.current.getBoundingClientRect();
-      const progress = Math.max(0, Math.min(1, -rect.top / rect.height));
-      const scale = 1 - progress * 0.15;
-      const opacity = 1 - progress * 0.6;
-      if (videoRef.current) {
-        videoRef.current.style.transform = `scaleX(${scale}) scaleY(${1 - progress * 0.1})`;
-        videoRef.current.style.opacity = String(opacity);
-      }
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const autoScrollPos = useRef(0);
 
   // Auto-scroll gallery
   useEffect(() => {
     const el = carouselRef.current;
     if (!el) return;
-    let speed = 0.7;
+    const speed = 0.8;
     const step = () => {
       if (!isDragging.current && el) {
-        el.scrollLeft += speed;
-        if (el.scrollLeft >= el.scrollWidth / 2) {
-          el.scrollLeft = 0;
+        autoScrollPos.current += speed;
+        const halfWidth = el.scrollWidth / 2;
+        if (autoScrollPos.current >= halfWidth) {
+          autoScrollPos.current = 0;
         }
+        el.scrollLeft = autoScrollPos.current;
       }
       autoScrollRef.current = requestAnimationFrame(step);
     };
@@ -55,6 +39,7 @@ export default function Home() {
     isDragging.current = true;
     startX.current = e.pageX - (carouselRef.current?.offsetLeft ?? 0);
     scrollLeft.current = carouselRef.current?.scrollLeft ?? 0;
+    autoScrollPos.current = carouselRef.current?.scrollLeft ?? 0;
   };
   const onMouseLeave = () => { isDragging.current = false; };
   const onMouseUp = () => { isDragging.current = false; };
@@ -71,6 +56,7 @@ export default function Home() {
     isDragging.current = true;
     startX.current = e.touches[0].pageX;
     scrollLeft.current = carouselRef.current?.scrollLeft ?? 0;
+    autoScrollPos.current = carouselRef.current?.scrollLeft ?? 0;
   };
   const onTouchEnd = () => { isDragging.current = false; };
   const onTouchMove = (e: React.TouchEvent) => {
@@ -86,7 +72,7 @@ export default function Home() {
   const menuItems = [
     { label: "Nak Lagi Tak?", href: "#nak-lagi-tak" },
     { label: "Ada Lagi Tak?", href: "#ada-lagi-tak" },
-    { label: "Nak Tahu Harga?", href: "#harga" },
+    { label: "Nak Tahu How Much?", href: "#harga" },
     { label: "Delivery Nak Tak?", href: "#delivery" },
   ];
 
@@ -298,8 +284,6 @@ export default function Home() {
           height: 100svh;
           object-fit: cover;
           display: block;
-          transform-origin: center center;
-          transition: transform 0.05s linear;
         }
 
         .hero-arrow {
@@ -376,6 +360,15 @@ export default function Home() {
           pointer-events: none;
         }
 
+        .section-title-bold {
+          font-family: var(--font);
+          color: var(--brown-dark);
+          font-size: clamp(36px, 11vw, 60px);
+          font-weight: bold;
+          padding: 0 20px;
+          text-align: center;
+          line-height: 1.1;
+        }
         /* SECTIONS */
         .section {
           background: var(--yellow);
@@ -532,9 +525,9 @@ export default function Home() {
 
         .cta-overlay {
           position: absolute;
-          top: 33%;
+          top: 10%;
           left: 50%;
-          transform: translate(-50%, -50%);
+          transform: translateX(-50%);
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -640,9 +633,8 @@ export default function Home() {
       )}
 
       {/* ===== HERO ===== */}
-      <section ref={heroRef} className="hero-section">
+      <section className="hero-section">
         <video
-          ref={videoRef}
           className="hero-video"
           src="https://res.cloudinary.com/dbcghcpes/video/upload/v1771906157/hero_p9xnxp.mp4"
           autoPlay
@@ -679,7 +671,7 @@ export default function Home() {
 
       {/* ===== INTRODUCING DUO ===== */}
       <section className="section">
-        <h2 className="section-title">Introducing our favourite DUO</h2>
+        <h2 className="section-title">Pasar Mini Myra Iconic Duo!</h2>
         <div className="full-img">
           <img src="/productboth.webp" alt="Our favourite duo" />
         </div>
@@ -687,7 +679,7 @@ export default function Home() {
 
       {/* ===== NAK LAGI TAK ===== */}
       <section id="nak-lagi-tak" className="section">
-        <h2 className="section-title">Nak Lagi Tak?</h2>
+        <h2 className="section-title-bold">Nak Lagi Tak?</h2>
         <div className="full-img">
           <img src="/productnlt.webp" alt="Nak Lagi Tak" />
         </div>
@@ -702,7 +694,7 @@ export default function Home() {
 
       {/* ===== ADA LAGI TAK ===== */}
       <section id="ada-lagi-tak" className="section">
-        <h2 className="section-title">Ada Lagi Tak?</h2>
+        <h2 className="section-title-bold">Ada Lagi Tak?</h2>
         <div className="full-img">
           <img src="/productalt.webp" alt="Ada Lagi Tak" />
         </div>
@@ -730,6 +722,7 @@ export default function Home() {
 
       {/* ===== DELIVERY ===== */}
       <section id="delivery" className="delivery-section">
+        <h2 className="section-title">Delivery Nak Tak?</h2>
         <div className="tab-bar">
           <button
             className={`tab-btn${activeTab === "klangvalley" ? " active" : ""}`}
