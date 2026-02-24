@@ -129,7 +129,7 @@ export default function Home() {
           top: 0;
           z-index: 100;
           background-color: var(--yellow);
-          border-bottom: 3px solid var(--brown-dark);
+          border-bottom: 3px solid #7BAEC4;
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -141,6 +141,7 @@ export default function Home() {
           height: 48px;
           width: auto;
           object-fit: contain;
+          background-color: var(--yellow);
         }
 
         .banner-right {
@@ -453,8 +454,8 @@ export default function Home() {
 
         .tab-btn.active {
           color: var(--brown-dark);
-          border-bottom-color: var(--brown-dark);
-          background: rgba(255,224,51,0.3);
+          border-bottom-color: #9D6E6E;
+          background: #F4B4B4;
         }
 
         .tab-content {
