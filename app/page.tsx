@@ -365,7 +365,7 @@ export default function Home() {
           color: var(--brown-dark);
           font-size: clamp(36px, 11vw, 60px);
           font-weight: bold;
-          padding: 0 20px;
+          padding: 28px 20px 24px;
           text-align: center;
           line-height: 1.1;
         }
@@ -377,7 +377,7 @@ export default function Home() {
         .section-title {
           font-family: var(--font);
           color: var(--brown-dark);
-          font-size: clamp(22px, 6vw, 32px);
+          font-size: clamp(28px, 8vw, 42px);
           font-weight: bold;
           padding: 28px 20px 16px;
           text-align: center;
@@ -415,7 +415,7 @@ export default function Home() {
           width: 80vw;
           max-width: 320px;
           aspect-ratio: 4/5;
-          border: 2.5px solid var(--brown-dark);
+          border: 2.5px solid #7BAEC4;
           overflow: hidden;
         }
 
@@ -541,7 +541,7 @@ export default function Home() {
           color: var(--brown-dark);
           border: 2.5px solid var(--brown-dark);
           border-radius: 30px;
-          padding: 12px 32px;
+          padding: 16px 44px;
           font-family: var(--font);
           font-size: 20px;
           font-weight: bold;
@@ -549,6 +549,7 @@ export default function Home() {
           box-shadow: 3px 3px 0 var(--brown-dark);
           transition: transform 0.1s, box-shadow 0.1s;
           display: inline-block;
+          white-space: nowrap;
         }
 
         .cta-btn:active {
@@ -558,11 +559,12 @@ export default function Home() {
 
         .cta-note {
           font-family: var(--font);
-          font-size: 13px;
+          font-size: 16px;
           color: var(--white);
-          text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
-          max-width: 280px;
-          line-height: 1.5;
+          text-shadow: 1px 1px 6px rgba(0,0,0,0.9), 0 0 12px rgba(0,0,0,0.8);
+          max-width: 300px;
+          line-height: 1.6;
+          font-weight: bold;
         }
 
         /* FOOTER */
