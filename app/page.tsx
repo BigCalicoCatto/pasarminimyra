@@ -140,7 +140,8 @@ export default function Home() {
         .banner-logo {
           height: 48px;
           width: auto;
-          object-fit: contain;
+          object-fit: cover;
+          object-position: center;
         }
 
         .banner-right {
