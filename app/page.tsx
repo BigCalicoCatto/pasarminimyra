@@ -141,7 +141,6 @@ export default function Home() {
           height: 48px;
           width: auto;
           object-fit: contain;
-          background-color: var(--yellow);
         }
 
         .banner-right {
